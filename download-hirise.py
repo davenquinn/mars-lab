@@ -1,9 +1,9 @@
 from os import path
 import click
 from click import Group, echo, secho,style
-from click import echo, style, secho
 from subprocess import run as _run
 from shlex import split
+from rich import print
 import contextlib
 import typer
 
@@ -18,29 +18,23 @@ def run(*command, **kwargs):
     if shell:
         _run(command,shell=True)
     else:
-        _run(split(command)
+        _run(split(command))
 
 
-@typer.command()
-def import_images(rebuild: bool = False):
-    fn = path.join(_,"hirise-images.txt")
-    with open(fn) as f:
-        images = f.read().splitlines()
+def import_images(file_list: str, rebuild: bool = False):
+    with open(file_list) as f:
+        images = [l for l in f.read().splitlines() if not l.startswith("#")]
 
     greyscale = True
     color = True
 
     image_files = []
 
-    message("Importing HiRISE images")
+    image_dir = "/mars-data/hirise-images/base-images"
+
+    print("Importing HiRISE images")
     for id in images:
-        header(id)
-
-        dn = path.join(image_dir,id)
-        run("mkdir -p",q(dn))
-
-        if rebuild:
-            run("rm -f {}/*".format(q(dn)))
+        print(id)
 
         ext = []
         if greyscale:
@@ -56,11 +50,11 @@ def import_images(rebuild: bool = False):
         url = _.format(mission, orbitrange, id)
 
         for f in names:
-            out = path.join(dn,f)
+            out = path.join(image_dir,f)
             if path.isfile(out):
                 _ = "File {} already downloaded".format(
                     style(out,fg="cyan"))
-                message(_)
+                echo(_)
             else:
                 run("wget","-O",out,url+f)
 
@@ -70,10 +64,11 @@ def import_images(rebuild: bool = False):
             # Ignore label files for geodata processing
             if ext.lower() != '.jp2': continue
 
-            message("Fixing JPEG2000 georeference")
-            run("fix_jp2", out)
+            #message("Fixing JPEG2000 georeference")
+            #run("fix_jp2", out)
 
             image_files.append(out)
+            print(out)
 
     for name in ("red","color"):
         # Create aggregate VRT files for each type
@@ -88,3 +83,6 @@ def import_images(rebuild: bool = False):
             path.join(image_dir,"hirise-{}.vrt".format(name)),
             *files)
 
+
+if __name__ == "__main__":
+    typer.run(import_images)
