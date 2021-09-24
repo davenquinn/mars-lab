@@ -64,11 +64,12 @@ def import_images(file_list: str, rebuild: bool = False):
             # Ignore label files for geodata processing
             if ext.lower() != '.jp2': continue
 
-            #message("Fixing JPEG2000 georeference")
-            #run("fix_jp2", out)
+            print("Fixing JPEG2000 georeference")
+            run("fix_jp2", out)
 
             image_files.append(out)
             print(out)
+            print("")
 
     for name in ("red","color"):
         # Create aggregate VRT files for each type
