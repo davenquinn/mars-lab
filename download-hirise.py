@@ -31,6 +31,7 @@ def import_images(file_list: str, rebuild: bool = False):
     image_files = []
 
     image_dir = "/mars-data/hirise-images/base-images"
+    final_dir = "/mars-data/hirise-images/"
 
     print("Importing HiRISE images")
     for id in images:
@@ -51,6 +52,12 @@ def import_images(file_list: str, rebuild: bool = False):
 
         for f in names:
             out = path.join(image_dir,f)
+            final_file = path.join(final_dir, f.replace(".JP2", ".tif"))
+            if path.isfile(final_file):
+                fn = style(final_file,fg="cyan")
+                echo(f"File {fn} already processed")
+                continue
+
             if path.isfile(out):
                 _ = "File {} already downloaded".format(
                     style(out,fg="cyan"))
@@ -64,25 +71,29 @@ def import_images(file_list: str, rebuild: bool = False):
             # Ignore label files for geodata processing
             if ext.lower() != '.jp2': continue
 
-            print("Fixing JPEG2000 georeference")
-            run("fix_jp2", out)
+            #print("Fixing JPEG2000 georeference")
+            #run("fix_jp2", out)
 
             image_files.append(out)
             print(out)
+
+
+            run("gdal_translate -ot Byte -scale 0 750 -of COG -co COMPRESS=JPEG -if JP2OpenJPEG", out, final_file)
+
             print("")
 
-    for name in ("red","color"):
-        # Create aggregate VRT files for each type
-        suffix = "_{}.JP2".format(name.upper())
-        files = [i for i in image_files if i.endswith(suffix)]
+    # for name in ("red","color"):
+    #     # Create aggregate VRT files for each type
+    #     suffix = "_{}.JP2".format(name.upper())
+    #     files = [i for i in image_files if i.endswith(suffix)]
 
-        run(
-            "gdalbuildvrt",
-            "-overwrite",
-            '-srcnodata "0"',
-            '-vrtnodata "0"',
-            path.join(image_dir,"hirise-{}.vrt".format(name)),
-            *files)
+    #     run(
+    #         "gdalbuildvrt",
+    #         "-overwrite",
+    #         '-srcnodata "0"',
+    #         '-vrtnodata "0"',
+    #         path.join(image_dir,"hirise-{}.vrt".format(name)),
+    #         *files)
 
 
 if __name__ == "__main__":
