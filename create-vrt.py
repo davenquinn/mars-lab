@@ -35,18 +35,17 @@ def create_vrt():
         run(
             "gdalbuildvrt",
             "-overwrite",
-            "-resolution highest",
             "-allow_projection_difference",
-            "-srcnodata 0",
+            "-a_srs", "'+proj=eqc +lat_ts=0 +lat_0=0 +lon_0=180 +x_0=0 +y_0=0 +R=3396190 +units=m +no_defs'",
             outfile,
             *urls)
         run("gdalinfo -approx_stats", outfile)
 
         with open(outfile) as f:
-            new_text=f.read().replace('<SourceFilename relativeToVRT="1">', "<SourceFilename>http://argyre.geoscience.wisc.edu/hirise-images/")
-
+           new_text=f.read().replace('<SourceFilename relativeToVRT="1">', "<SourceFilename>/vsicurl/http://argyre.geoscience.wisc.edu/hirise-images/")
+        
         with open(outfile, "w") as f:
-            f.write(new_text)
+           f.write(new_text)
 
 
 if __name__ == "__main__":
