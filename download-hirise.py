@@ -20,6 +20,13 @@ def run(*command, **kwargs):
     else:
         _run(split(command))
 
+def create_cog(infile, outfile):
+    scratchdir = "/mars-data/hirise-images/.scratch"
+    scratchfile = scratchdir+"/scratch.tif"
+    run("mkdir -p", scratchdir)
+    run("rm -f", scratchdir)
+    run("gdal_translate --config GDAL_CACHEMAX 2048 -of COG -co COMPRESS=LZW -co NUM_THREADS=8 -co BIGTIFF=YES -if JP2OpenJPEG", infile, scratchfile)
+    run("mv", scratchfile, outfile)
 
 def import_images(file_list: str, rebuild: bool = False):
     with open(file_list) as f:
@@ -77,8 +84,8 @@ def import_images(file_list: str, rebuild: bool = False):
             image_files.append(out)
             print(out)
 
-
-            run("gdal_translate -ot Byte -scale 0 750 -of COG -co COMPRESS=JPEG -if JP2OpenJPEG", out, final_file)
+            # Full-resolution geotiffs
+            create_cog(out, final_file)
 
             print("")
 
