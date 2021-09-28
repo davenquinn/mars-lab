@@ -79,7 +79,7 @@ def import_images(file_list: str, rebuild: bool = False):
             if ext.lower() != '.jp2': continue
 
             #print("Fixing JPEG2000 georeference")
-            #run("fix_jp2", out)
+            run("fix_jp2", out)
 
             image_files.append(out)
             print(out)

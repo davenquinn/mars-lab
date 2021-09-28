@@ -3,6 +3,10 @@ name = "mars-data-backend"
 version = "0.1.0"
 description = "A command-line application to pull together an aligned Mars GIS environment"
 authors = ["Daven Quinn <dev@davenquinn.com>"]
+packages = [
+    { include = "tile_server" },
+    { include = "shell_utils" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
