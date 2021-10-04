@@ -1,0 +1,17 @@
+#!/bin/bash
+
+base_dir=/projects/mars-lab
+data_dir=/mars-data
+context=$base_dir/tools/image-downloader
+
+# if [ ${1:-""} == "--build" ]; then
+#   echo "Building $context"
+#   docker build -t mars-images $context
+#   shift
+# fi
+
+docker build --quiet -t mars-images $context
+
+docker run -it \
+  --volume $data_dir:$data_dir \
+  mars-images mars-images $@

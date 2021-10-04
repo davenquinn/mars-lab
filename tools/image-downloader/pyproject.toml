@@ -3,11 +3,12 @@ authors = ["Daven Quinn <dev@davenquinn.com>"]
 description = "A command-line application to pull together an aligned Mars GIS environment"
 name = "mars-data-backend"
 packages = [
-  {include = "tile_server"},
-  {include = "shell_utils"},
   {include = "mars_images"},
 ]
 version = "0.1.0"
+
+[tool.poetry.scripts]
+mars-images = "mars_images:cli"
 
 [tool.poetry.dependencies]
 click = "^8.0.1"
