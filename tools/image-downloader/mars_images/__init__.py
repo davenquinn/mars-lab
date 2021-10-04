@@ -3,18 +3,18 @@ from pathlib import Path
 from os import environ
 from rich.console import Console
 from rio_cogeo import cog_translate, cog_profiles, cog_validate
-from shell_utils import run
-from requests import get
+from .config import Config
+
+from .download_hirise import download_hirise
 
 cli = click.Group(name="mars-images")
 console = Console()
 
-mars_data_dir = Path(environ.get("MARS_DATA_DIR"))
-scratch_dir = Path(environ.get("SCRATCH_DIR", mars_data_dir / ".scratch"))
-
 
 def _translate(file_path: Path, profile="lzw", profile_options={}, **options):
     """Convert image to COG in place"""
+
+    cfg = Config()
     # Format creation option (see gdalwarp `-co` option)
     output_profile = cog_profiles.get(profile)
     output_profile.update(dict(BIGTIFF="IF_SAFER"))
@@ -27,10 +27,10 @@ def _translate(file_path: Path, profile="lzw", profile_options={}, **options):
         GDAL_TIFF_OVR_BLOCKSIZE="128",
     )
 
-    scratch_dir.mkdir(exist_ok=True)
+    cfg.scratch_dir.mkdir(exist_ok=True)
 
     out_path = file_path.with_suffix(".tif")
-    dst_path = scratch_dir / out_path.name
+    dst_path = cfg.scratch_dir / out_path.name
 
     cog_translate(
         file_path,
@@ -57,8 +57,9 @@ def _translate(file_path: Path, profile="lzw", profile_options={}, **options):
 
 
 def create_cog(fn):
+    cfg = Config()
     file = Path(fn)
-    pth = file.relative_to(mars_data_dir)
+    pth = file.relative_to(cfg.data_dir)
 
     console.print(str(pth.parent) + "/", style="dim", end="")
     console.print(pth.name, style="bold cyan")
@@ -81,6 +82,8 @@ def create_cogs(files):
     for file in files:
         create_cog(file)
 
+
+cli.add_command(download_hirise, "download-hirise")
 
 if __name__ == "__main__":
     cli()
