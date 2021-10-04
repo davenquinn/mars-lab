@@ -1,4 +1,4 @@
-all: mars-image-downloader
+all: tools/image-downloader
 	docker build -t $^ $^
 	docker run -it \
 		--volume /mars-data:/mars-data \
@@ -18,13 +18,13 @@ server:
 list:
 	docker run -it --volume /mars-data:/mars-data bash ls -lah /mars-data/hirise-images
 
-vrt: mars-image-downloader
+vrt: tools/image-downloader
 	docker build -t $^ $^
 	docker run -it \
 		--volume /mars-data:/mars-data \
 		$^ python create-vrt.py
 
-mosaic: mars-image-downloader
+mosaic: tools/image-downloader
 	docker build -t $^ $^
 	docker run -it \
 		--volume /mars-data:/mars-data \
