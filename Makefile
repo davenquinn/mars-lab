@@ -7,7 +7,7 @@ all: tools/image-downloader
 	ls /mars-data/hirise-images/*_RED.tif > /mars-data/hirise-images/hirise-red.txt
 
 install:
-	sudo ln -s $(shell pwd)/bin/mars-images /usr/local/bin/mars-images
+	sudo ln -s $(shell pwd)/bin/* /usr/local/bin
 
 shell:
 	docker run -it \
