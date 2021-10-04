@@ -10,7 +10,7 @@ context=$base_dir/tools/image-downloader
 #   shift
 # fi
 
-docker build --quiet -t mars-images $context
+docker build -t mars-images $context
 
 docker run -it \
   --volume $data_dir:$data_dir \
