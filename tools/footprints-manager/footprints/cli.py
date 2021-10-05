@@ -12,6 +12,7 @@ from sqlalchemy.exc import ProgrammingError
 from requests import get
 from zipfile import ZipFile
 from io import BytesIO
+from shlex import quote
 
 # External modules
 from .settings import CACHE_DIR
@@ -47,7 +48,7 @@ def download_footprints():
         if shapefile.exists():
             print(f"File [cyan]{shapefile.stem}[/cyan] exists")
         else:
-            run(f'curl {url} | tar -xz -C "{footprints_cache}"', shell=True)
+            run(f'curl "{url}" | tar -xz -C "{footprints_cache}"', shell=True)
 
 
 def download_names():
@@ -63,7 +64,20 @@ def download_names():
 
 
 def connection_args(url: URL):
-    return f"PG:\"dbname='{url.database}' port='5432'\""
+    host = url.host
+    if host is None:
+        host = "localhost"
+    args = dict(
+        host=url.host or "localhost",
+        port=url.port or 5432,
+        dbname=url.database,
+        user=url.username,
+        password=url.password,
+    )
+
+    vals = " ".join([f"{k}='{v}'" for k, v in args.items()])
+
+    return f'PG:"{vals}"'
 
 
 def import_footprints(sources, truncate=False):
