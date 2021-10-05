@@ -1,6 +1,4 @@
-from starlette.config import Config
+from os import environ
 
-config = Config(".env")
-
-DATABASE = config("DATABASE")
-CACHE_DIR = config("CACHE_DIR")
+DATABASE = environ.get("FOOTPRINTS_DATABASE")
+CACHE_DIR = environ.get("FOOTPRINTS_CACHE")

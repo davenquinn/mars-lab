@@ -56,13 +56,24 @@ def _translate(file_path: Path, profile="lzw", profile_options={}, **options):
     dst_path.rename(out_path)
 
 
+def _is_valid_cog(file, quiet=False):
+    try:
+        return cog_validate(file, strict=True, quiet=quiet)[0]
+    except Exception:
+        return False
+
+
+def print_path(pth: Path):
+    console.print(str(pth.parent) + "/", style="dim", end="")
+    console.print(pth.name, style="bold cyan")
+
+
 def create_cog(fn):
     cfg = Config()
     file = Path(fn)
     pth = file.relative_to(cfg.data_dir)
 
-    console.print(str(pth.parent) + "/", style="dim", end="")
-    console.print(pth.name, style="bold cyan")
+    print_path(pth)
     if pth.suffix == ".tif":
         res = cog_validate(file, strict=True)[0]
         if res:
@@ -81,6 +92,23 @@ def create_cogs(files):
     console.print("Processing files to COG", style="bold green")
     for file in files:
         create_cog(file)
+
+
+@cli.command(name="write-paths")
+@click.argument("dir", type=click.Path(dir_okay=True, exists=True))
+def write_paths(dir):
+    cfg = Config()
+    cog_paths = []
+    directory = Path(dir)
+    for file in directory.glob("**/*.tif"):
+        if not _is_valid_cog(file, quiet=True):
+            continue
+        pth = file.relative_to(cfg.data_dir)
+        print_path(pth)
+        cog_paths.append(pth)
+    urls = ["/".join([cfg.public_url, str(f)]) for f in cog_paths]
+    with (directory / "datasets.txt").open("w") as f:
+        f.write("\n".join(urls))
 
 
 cli.add_command(download_hirise, "download-hirise")
