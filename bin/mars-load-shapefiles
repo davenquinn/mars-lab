@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+export PGPASSWORD=$POSTGRES_PASSWORD
+
+for f in $@; do
+  shp2pgsql $f "imported_shapefiles.${f:r}" | mars psql aeolis_dorsa
+done

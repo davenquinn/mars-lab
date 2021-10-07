@@ -1,0 +1,37 @@
+#!/usr/bin/env zsh
+
+if [ -z $MARS_LAB ]; then
+  export MARS_LAB=${0:A:h:h}
+  set -o allexport
+  source $MARS_LAB/.env
+  set +o allexport
+fi
+
+bin="$MARS_LAB/bin"
+
+if [ -z $1 ] || [ $1 = '--help' ]; then
+  echo "Software for managing a Mars lab"
+  echo "Commands:"
+  ls "$bin" | grep mars- | sed 's/mars-/  mars /g'
+  exit 0
+fi
+
+# Echo directory name
+if [ $1 = '--dir' ]; then
+  echo "$MARS_LAB"
+  exit 0
+fi
+
+cmd="mars-$1"
+shift
+
+found_command=0
+for f in $(ls "$bin" | grep mars-); do
+  [ $f != $cmd ] && continue
+  found_command=1
+  break
+done
+
+[ ! $found_command ] && echo "Command $cmd not found"
+
+"$bin/$cmd" $@

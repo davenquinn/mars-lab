@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export PGPASSWORD=$POSTGRES_PASSWORD
+
+psql -U postgres -h 0.0.0.0 -p 54321 $@
