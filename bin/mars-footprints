@@ -1,0 +1,19 @@
+#!/bin/bash
+
+base_dir=/projects/mars-lab
+data_dir=/mars-data
+context=$base_dir/tools/footprints-manager
+
+# if [ ${1:-""} == "--build" ]; then
+#   echo "Building $context"
+#   docker build -t mars-images $context
+#   shift
+# fi
+
+docker build -t footprints-manager $context
+
+docker run -it \
+  --volume $data_dir:$data_dir \
+  --env-file $base_dir/.env \
+  --network mars_lab_default \
+  footprints-manager python -m footprints $@

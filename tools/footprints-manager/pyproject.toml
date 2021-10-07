@@ -1,0 +1,22 @@
+[tool.poetry]
+authors = ["Daven Quinn <dev@davenquinn.com>"]
+description = "Get Mars imagery footprints and insert them into a PostgreSQL database table."
+name = "mars-footprints"
+version = "0.1.0"
+
+[tool.poetry.scripts]
+footprints = "footprints:cli"
+
+[tool.poetry.dependencies]
+SQLAlchemy = "^1.4.25"
+click = "^8.0.1"
+psycopg2 = "^2.9.1"
+python = "^3.8"
+rich = "^10.9.0"
+sqlparse = "^0.4.2"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0"]
