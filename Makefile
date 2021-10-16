@@ -26,8 +26,8 @@ vrt: tools/image-downloader
 		--volume /mars-data:/mars-data \
 		$^ python create-vrt.py
 
-mosaic: tools/image-downloader
+mosaic: tools/tile-server
 	docker build -t $^ $^
 	docker run -it \
 		--volume /mars-data:/mars-data \
-		$^ cogeo-mosaic create -o /mars-data/hirise-images/mosaic.json /mars-data/hirise-images/.faked-earth/hirise-red.txt
+		$^ cogeo-mosaic create -o /mars-data/hirise-images/mosaic.json /mars-data/hirise-images/hirise-red.txt
