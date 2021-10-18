@@ -30,4 +30,8 @@ mosaic: tools/tile-server
 	docker build -t $^ $^
 	docker run -it \
 		--volume /mars-data:/mars-data \
-		$^ cogeo-mosaic create -o /mars-data/hirise-images/mosaic.json /mars-data/hirise-images/hirise-red.txt
+		$^ cogeo-mosaic create \
+		-o /mars-data/hirise-images/mosaic.json \
+		--maxzoom 10 \
+		--minzoom 5 \
+		/mars-data/hirise-images/hirise-red.txt
