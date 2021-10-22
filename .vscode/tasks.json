@@ -7,9 +7,9 @@
 			"platform": "python",
 			"dockerBuild": {
 				"tag": "marslab:latest",
-				"dockerfile": "${workspaceFolder}/Dockerfile",
-				"context": "${workspaceFolder}",
-				"pull": true
+				"dockerfile": "${workspaceFolder}/tools/tile-server/Dockerfile",
+				"context": "${workspaceFolder}/tools/tile-server",
+				"pull": false 
 			}
 		},
 		{
