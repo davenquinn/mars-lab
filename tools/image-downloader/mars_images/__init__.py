@@ -1,6 +1,5 @@
 import click
 from pathlib import Path
-from os import environ
 from rich.console import Console
 from rio_cogeo import cog_translate, cog_profiles, cog_validate
 from .config import Config
