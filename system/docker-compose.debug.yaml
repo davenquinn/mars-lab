@@ -6,7 +6,7 @@ services:
     build:
       context: tools/tile-server
       dockerfile: ./Dockerfile
-    command: ["sh", "-c", "pip install debugpy -t /tmp && python /tmp/debugpy --wait-for-client --listen 0.0.0.0:5678 -m uvicorn mars_tile_server:app --host 0.0.0.0 --port 8000"]
+    command: ["sh", "-c", "pip install debugpy -t /tmp && python /tmp/debugpy --wait-for-client --listen 0.0.0.0:5678 -m uvicorn --host 0.0.0.0 --port 8000 --root-path /tiles mars_tile_server:app"]
     expose:
       - 8000
     ports:

@@ -1,19 +1,19 @@
 {
   "configurations": [
     {
-      "name": "Docker: Python - Fastapi",
-      "type": "docker",
-      "request": "launch",
-      "preLaunchTask": "docker-run: debug",
-      "python": {
-        "pathMappings": [
-          {
-            "localRoot": "${workspaceFolder}",
-            "remoteRoot": "/app"
-          }
-        ],
-        "projectType": "fastapi"
+      "name": "Docker: Attach to Python [Tile server]",
+      "type": "python",
+      "request": "attach",
+      "pathMappings": [
+        {
+          "localRoot": "${workspaceFolder}/tools/tile-server",
+          "remoteRoot": "/code"
+        }
+      ],
+      "connect": {
+        "host": "localhost",
+        "port": 5678
       }
     }
   ]
-}
+}%

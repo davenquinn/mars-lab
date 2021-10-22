@@ -6,7 +6,7 @@
 			"label": "docker-build",
 			"platform": "python",
 			"dockerBuild": {
-				"tag": "marslab:latest",
+				"tag": "mars_tile_server:latest",
 				"dockerfile": "${workspaceFolder}/tools/tile-server/Dockerfile",
 				"context": "${workspaceFolder}/tools/tile-server",
 				"pull": false 
@@ -20,11 +20,13 @@
 			],
 			"python": {
 				"args": [
-					"app:app",
+					"mars_tile_server:app",
 					"--host",
 					"0.0.0.0",
 					"--port",
-					"8000"
+					"8000",
+					"--root-path",
+					"/tiles"
 				],
 				"module": "uvicorn"
 			}
