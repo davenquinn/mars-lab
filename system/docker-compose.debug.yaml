@@ -1,0 +1,21 @@
+# https://code.visualstudio.com/docs/containers/debug-common
+version: '3.4'
+services:
+  server:
+    image: mars_tile_server
+    build:
+      context: tools/tile-server
+      dockerfile: ./Dockerfile
+    command: >
+      python
+        -m debugpy --listen 0.0.0.0:5678
+        -m uvicorn --host 0.0.0.0 --port 8000
+          --root-path /tiles
+          --reload
+          mars_tile_server:app
+    volumes:
+      - ./tools/tile-server:/code
+    expose:
+      - 8000
+    ports:
+      - 5678:5678
