@@ -2,6 +2,7 @@ import click
 from pathlib import Path
 from rich.console import Console
 from rio_cogeo import cog_translate, cog_profiles, cog_validate
+from rio_cogeo.cogeo import cog_info
 from .config import Config
 
 from .download_hirise import download_hirise
@@ -93,6 +94,16 @@ def create_cogs(files):
         create_cog(file)
 
 
+@cli.command(name="cog-info")
+@click.argument("files", type=click.Path(dir_okay=False, exists=True), nargs=-1)
+def cog_info(files):
+    for file in files:
+        print(file)
+        info = cog_info(file)
+        # print(file)
+        # print(info.IFD)
+
+
 @cli.command(name="write-paths")
 @click.argument("dir", type=click.Path(dir_okay=True, exists=True))
 def write_paths(dir):
@@ -111,6 +122,3 @@ def write_paths(dir):
 
 
 cli.add_command(download_hirise, "download-hirise")
-
-if __name__ == "__main__":
-    cli()

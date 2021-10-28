@@ -14,7 +14,7 @@ services:
     expose:
       - 8000
     volumes:
-      - $MARS_DATA_DIR:/mars-data:ro
+      - $MARS_DATA_DIR:/mars-data
   database:
     image: postgis/postgis:13-3.1
     ports:
