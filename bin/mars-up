@@ -1,3 +1,4 @@
 #!/bin/bash
 mars lab up --build -d $@
+mars lab exec gateway nginx -s reload
 mars lab logs --tail=0 -f

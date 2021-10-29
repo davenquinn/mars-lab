@@ -26,5 +26,7 @@ services:
       - POSTGRES_PASSWORD
     volumes:
       - db_cluster:/var/lib/postgresql/data
+  frontend:
+    image: ghcr.io/davenquinn/mars-lab-frontend:main
 volumes:
   db_cluster:
