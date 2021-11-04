@@ -1,0 +1,6 @@
+#!/bin/bash
+
+context=$MARS_LAB/tools/image-downloader
+
+mars images download-hirise $MARS_DATA_DIR/hirise-images.txt
+ls $MARS_DATA_DIR/hirise-images/*_RED.tif > $MARS_DATA_DIR/hirise-images/hirise-red.txt
