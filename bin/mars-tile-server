@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+mars lab build server
+mars lab run --rm server tile-server $@

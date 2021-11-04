@@ -96,12 +96,19 @@ def create_cogs(files):
 
 @cli.command(name="cog-info")
 @click.argument("files", type=click.Path(dir_okay=False, exists=True), nargs=-1)
-def cog_info(files):
+@click.option("--overviews", is_flag=True, default=False)
+def _cog_info(files, overviews=False):
     for file in files:
-        print(file)
-        info = cog_info(file)
-        # print(file)
-        # print(info.IFD)
+        console.print(file)
+        try:
+            info = cog_info(file)
+            if overviews:
+                console.print(f"Overviews: {len(info.IFD)}")
+            else:
+                console.print(info)
+            console.print()
+        except Exception as err:
+            console.print(err)
 
 
 @cli.command(name="write-paths")
@@ -122,3 +129,6 @@ def write_paths(dir):
 
 
 cli.add_command(download_hirise, "download-hirise")
+
+if __name__ == "__main__":
+    cli()
