@@ -1,12 +1,15 @@
 version: "3"
 services:
   gateway:
-    image: nginx
+    image: jonasal/nginx-certbot:latest
     ports:
       - "80:80"
+      - "443:443"
+    environment:
+      - CERTBOT_EMAIL
     volumes:
       - $MARS_DATA_DIR:/usr/share/nginx/html:ro
-      - ./system/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./system/nginx.conf:/etc/nginx/user_conf.d/default.conf:ro
   server:
     image: mars_tile_server
     build: 
