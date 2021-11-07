@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mars lab run server rio $@
+mars lab exec server rio $@

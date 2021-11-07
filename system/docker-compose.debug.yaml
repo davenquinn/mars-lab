@@ -9,12 +9,14 @@ services:
     command: >
       python
         -m debugpy --listen 0.0.0.0:5678
-        -m uvicorn --host 0.0.0.0 --port 8000
+        -m uvicorn
+          --host 0.0.0.0
+          --port 8000
           --root-path /tiles
           --reload
           mars_tile_server:app
     volumes:
-      - ./tools/tile-server:/code
+      - ./tools/tile-server:/tools/tile-server
     expose:
       - 8000
     ports:
