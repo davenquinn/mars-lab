@@ -4,6 +4,7 @@
       "name": "Docker: Attach to Python [Tile server]",
       "type": "python",
       "request": "attach",
+      "justMyCode": false,
       "pathMappings": [
         {
           "localRoot": "${workspaceFolder}/tools/tile-server",
