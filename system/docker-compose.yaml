@@ -14,7 +14,8 @@ services:
       dockerfile: tools/tile-server/Dockerfile
     command: uvicorn --host 0.0.0.0 --port 8000 --root-path /tiles mars_tile_server:app
     environment:
-      - FOOTPRINTS_DATABASE 
+      - FOOTPRINTS_DATABASE
+      - MOSAIC_CONCURRENCY 
     expose:
       - 8000
     volumes:
