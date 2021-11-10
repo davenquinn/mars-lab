@@ -1,4 +1,10 @@
 #!/bin/bash
+
+if [ ${1:-""} = "--debug" ]; then
+  export COMPOSE_FILE="$COMPOSE_FILE:$MARS_LAB/system/docker-compose.debug.yaml"
+  shift
+fi
+
 mars lab up --build -d $@
 mars lab exec gateway nginx -s reload
 mars lab logs --tail=100 -f

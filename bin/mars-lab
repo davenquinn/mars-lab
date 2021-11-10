@@ -4,6 +4,4 @@ base_dir=/projects/mars-lab
 
 docker-compose --project-dir $base_dir \
   --env-file $base_dir/.env \
-  -f $base_dir/system/docker-compose.yaml \
-  -f $base_dir/system/docker-compose.debug.yaml \
   $@

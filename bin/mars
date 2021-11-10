@@ -7,6 +7,8 @@ if [ -z $MARS_LAB ]; then
   set +o allexport
 fi
 
+export COMPOSE_FILE="$MARS_LAB/system/docker-compose.yaml"
+
 bin="$MARS_LAB/bin"
 
 if [ -z $1 ] || [ $1 = '--help' ]; then
