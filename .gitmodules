@@ -4,3 +4,6 @@
 [submodule "tools/tile-server/deps/timvt"]
 	path = tools/tile-server/deps/timvt
 	url = https://github.com/developmentseed/timvt.git
+[submodule "tools/Orienteer"]
+	path = tools/Orienteer
+	url = https://github.com/davenquinn/Orienteer.git
