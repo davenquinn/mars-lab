@@ -9,10 +9,11 @@ services:
       - CERTBOT_EMAIL
     volumes:
       - $MARS_DATA_DIR:/usr/share/nginx/html:ro
-      - ./system/nginx.conf:/etc/nginx/user_conf.d/default.conf:ro
+      - ./system/webroot:/webroot:ro
+      - ./system/nginx-config:/etc/nginx/user_conf.d:ro
   server:
     image: mars_tile_server
-    build: 
+    build:
       context: .
       dockerfile: tools/tile-server/Dockerfile
     command: >
@@ -22,7 +23,7 @@ services:
         --worker-class uvicorn.workers.UvicornWorker
     environment:
       - FOOTPRINTS_DATABASE
-      - MOSAIC_CONCURRENCY 
+      - MOSAIC_CONCURRENCY
     expose:
       - 8000
     volumes:
@@ -52,4 +53,4 @@ services:
       - S3_SECRET_KEY
       - S3_BACKUP_BUCKET=macrostrat-db-backups
 volumes:
-  db_cluster:
+  db_cluster: null
