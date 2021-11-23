@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+cd $MARS_LAB/tools/Orienteer/core
+
+poetry run orienteer $@

@@ -7,4 +7,4 @@ fi
 
 mars lab up --build -d $@
 mars lab exec gateway nginx -s reload
-mars lab logs --tail=100 -f
+mars lab logs --tail=10 -f

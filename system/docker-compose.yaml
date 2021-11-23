@@ -37,6 +37,18 @@ services:
       - POSTGRES_PASSWORD
     volumes:
       - db_cluster:/var/lib/postgresql/data
+  orienteer:
+    build: tools/Orienteer/core
+    command: orienteer serve
+    environment:
+      - ORIENTEER_DATABASE=${FOOTPRINTS_DATABASE}
+      - ORIENTEER_SRID
+      - ORIENTEER_FOOTPRINT_SRID
+      - ORIENTEER_HOST=0.0.0.0
+    expose: [5000]
+  orienteer_frontend:
+    build: tools/Orienteer/frontend
+    expose: [3000]
   frontend:
     image: ghcr.io/davenquinn/mars-lab-frontend:main
   db_backup:
