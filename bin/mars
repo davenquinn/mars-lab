@@ -9,6 +9,10 @@ fi
 
 export COMPOSE_FILE="$MARS_LAB/system/docker-compose.yaml"
 
+if [ ! -z "$MARS_COMPOSE_OVERRIDES" ]; then
+  export COMPOSE_FILE="$COMPOSE_FILE:$MARS_COMPOSE_OVERRIDES"
+fi
+
 bin="$MARS_LAB/bin"
 
 if [ -z $1 ] || [ $1 = '--help' ]; then
