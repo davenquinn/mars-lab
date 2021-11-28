@@ -6,5 +6,10 @@ if [ ${1:-""} = "--debug" ]; then
 fi
 
 mars lab up --build -d $@
+
+
 mars lab exec gateway nginx -s reload
+# Reload the PostgREST schema cache
+mars lab kill -s SIGUSR1 orienteer_api
+
 mars lab logs --tail=10 -f
