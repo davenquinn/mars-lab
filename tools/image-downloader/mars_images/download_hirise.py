@@ -4,6 +4,7 @@ from click import Group, echo, secho, style
 from subprocess import run as _run
 from shlex import split
 from rich import print
+import rasterio
 import contextlib
 import typer
 
@@ -28,7 +29,7 @@ def create_cog(infile, outfile):
     run("mkdir -p", scratchdir)
     run("rm -f", scratchdir)
     run(
-        "gdal_translate --config GDAL_CACHEMAX 2048 -of COG -co COMPRESS=LZW -co NUM_THREADS=8 -co BIGTIFF=YES -if JP2OpenJPEG",
+        "gdal_translate -a_nodata 0 --config GDAL_CACHEMAX 2048 -of COG -co COMPRESS=LZW -co NUM_THREADS=8 -co BIGTIFF=YES -if JP2OpenJPEG",
         infile,
         scratchfile,
     )

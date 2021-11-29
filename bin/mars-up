@@ -1,6 +1,7 @@
 #!/bin/bash
 
 if [ ${1:-""} = "--debug" ]; then
+  echo "Running in debug mode"
   export COMPOSE_FILE="$COMPOSE_FILE:$MARS_LAB/system/docker-compose.debug.yaml"
   shift
 fi
@@ -9,7 +10,5 @@ mars lab up --build -d $@
 
 
 mars lab exec gateway nginx -s reload
-# Reload the PostgREST schema cache
-mars lab kill -s SIGUSR1 orienteer_api
 
 mars lab logs --tail=10 -f
