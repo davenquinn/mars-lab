@@ -1,0 +1,8 @@
+{
+    "connection": null,
+    "data_schema": "map_data",
+    "topo_schema": "map_topology",
+    "srid": 949901,
+    "port": 3006,
+    "tolerance": 1
+}

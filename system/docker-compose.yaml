@@ -57,6 +57,18 @@ services:
       - PGRST_DB_ANON_ROLE=postgres
   frontend:
     image: ghcr.io/davenquinn/mars-lab-frontend:main
+  mapboard:
+    image: ghcr.io/davenquinn/geologic-map:strabospot-integration
+    entrypoint: /usr/bin/env
+    environment:
+      - GEOLOGIC_MAP_CONFIG=/conf/geologic-map-config.json
+      - GEOLOGIC_MAP_DATABASE_CONNECTION=${FOOTPRINTS_DATABASE}
+      - GEOLOGIC_MAP_HOST=database
+    volumes:
+      - ./tools/mapboard/geologic-map-config.json:/conf/geologic-map-config.json:ro
+    command: /app/docker-assets/run-server
+    expose:
+      - 3006
   db_backup:
     image: ghcr.io/uw-macrostrat/pg-backup-service:latest
     environment:
