@@ -2,6 +2,9 @@
 
 export PGPASSWORD=$POSTGRES_PASSWORD
 
+schema="imported_shapefiles"
+
+echo "CREATE SCHEMA IF NOT EXISTS $schema" | mars psql aeolis_dorsa
 for f in $@; do
-  shp2pgsql $f "imported_shapefiles.${f:r}" | mars psql aeolis_dorsa
+  shp2pgsql $f "$schema.${f:r}" | mars psql aeolis_dorsa
 done

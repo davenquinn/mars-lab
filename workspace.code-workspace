@@ -1,0 +1,13 @@
+{
+  "folders": [
+	{
+		"name": "mars-lab",
+		"path": "."
+	},
+	{
+		"name": "mars-data",
+		"path": "../../mars-data"
+	}
+],
+  "settings": {}
+}

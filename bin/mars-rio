@@ -1,0 +1,3 @@
+#!/bin/bash
+
+mars lab exec server rio $@

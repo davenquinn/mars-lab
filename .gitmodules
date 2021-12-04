@@ -1,0 +1,9 @@
+[submodule "python-tools"]
+	path = python-tools
+	url = https://github.com/UW-Macrostrat/python-tools.git
+[submodule "tools/tile-server/deps/timvt"]
+	path = tools/tile-server/deps/timvt
+	url = https://github.com/developmentseed/timvt.git
+[submodule "tools/Orienteer"]
+	path = tools/Orienteer
+	url = https://github.com/davenquinn/Orienteer.git

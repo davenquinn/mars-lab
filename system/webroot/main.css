@@ -1,0 +1,40 @@
+body {
+  font-size: 16px;
+  margin: 0;
+}
+
+* {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#wrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  margin: 0 auto;
+  max-width: 30em;
+}
+
+main {
+  flex: 1;
+  flex-direction: column;
+  display: flex;
+}
+
+img {
+  max-width: 100%;
+}
+
+.caption {
+  margin-top: 0;
+}
+
+.caption, .credits {
+  font-size: 0.9em;
+  color: #666;
+}
+
+#content {
+  flex-grow: 1;
+}
+

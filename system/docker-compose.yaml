@@ -1,11 +1,33 @@
 version: "3"
 services:
   gateway:
-    image: nginx
+    image: jonasal/nginx-certbot:latest
     ports:
       - "80:80"
+      - "443:443"
+    environment:
+      - CERTBOT_EMAIL
     volumes:
       - $MARS_DATA_DIR:/usr/share/nginx/html:ro
+      - ./system/webroot:/webroot:ro
+      - ./system/nginx-config:/etc/nginx/user_conf.d:ro
+  server:
+    image: mars_tile_server
+    build:
+      context: .
+      dockerfile: tools/tile-server/Dockerfile
+    command: >
+      gunicorn mars_tile_server:app
+        --bind 0.0.0.0:8000
+        --workers 8
+        --worker-class uvicorn.workers.UvicornWorker
+    environment:
+      - FOOTPRINTS_DATABASE
+      - MOSAIC_CONCURRENCY
+    expose:
+      - 8000
+    volumes:
+      - $MARS_DATA_DIR:/mars-data
   database:
     image: postgis/postgis:13-3.1
     ports:
@@ -15,5 +37,50 @@ services:
       - POSTGRES_PASSWORD
     volumes:
       - db_cluster:/var/lib/postgresql/data
+  # Orienteer application images
+  # (these could maybe be combined)
+  orienteer:
+    build: tools/Orienteer/core
+    command: orienteer serve
+    environment:
+      - ORIENTEER_DATABASE
+      - ORIENTEER_SRID
+      - ORIENTEER_GEOGRAPHIC_SRID
+      - ORIENTEER_HOST=0.0.0.0
+    expose: [5000]
+  orienteer_api:
+    image: postgrest/postgrest
+    expose: [3000]
+    environment:
+      - PGRST_DB_URI=${ORIENTEER_DATABASE}
+      - PGRST_DB_SCHEMA=orienteer_api
+      - PGRST_DB_ANON_ROLE=postgres
+  frontend:
+    image: ghcr.io/davenquinn/mars-lab-frontend:main
+  mapboard:
+    image: ghcr.io/davenquinn/geologic-map:strabospot-integration
+    entrypoint: /usr/bin/env
+    environment:
+      - GEOLOGIC_MAP_CONFIG=/conf/geologic-map-config.json
+      - GEOLOGIC_MAP_DATABASE_CONNECTION=${FOOTPRINTS_DATABASE}
+      - GEOLOGIC_MAP_HOST=database
+    volumes:
+      - ./tools/mapboard/geologic-map-config.json:/conf/geologic-map-config.json:ro
+    command: /app/docker-assets/run-server
+    expose:
+      - 3006
+  db_backup:
+    image: ghcr.io/uw-macrostrat/pg-backup-service:latest
+    environment:
+      - DB_NAME=footprints
+      - DB_BACKUP_PREFIX=mars_lab
+      - PGHOST=database
+      - PGPASSWORD=$POSTGRES_PASSWORD
+      - S3_ENDPOINT
+      - SCHEDULE=@weekly
+      - DB_BACKUP_MAX_N=5
+      - S3_ACCESS_KEY
+      - S3_SECRET_KEY
+      - S3_BACKUP_BUCKET=macrostrat-db-backups
 volumes:
-  db_cluster:
+  db_cluster: null

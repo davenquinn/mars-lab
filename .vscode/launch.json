@@ -1,0 +1,28 @@
+{
+  "configurations": [
+    {
+      "name":"Extract orientations from features",
+      "type":"python",
+      "request":"launch",
+      "program":"${workspaceFolder}/tools/Orienteer/core/run-cli.py",
+      "cwd": "${workspaceFolder}/tools/Orienteer/core/",
+      "args": ["extract"]
+    },
+    {
+      "name": "Docker: Attach to Python [Tile server]",
+      "type": "python",
+      "request": "attach",
+      "justMyCode": false,
+      "pathMappings": [
+        {
+          "localRoot": "${workspaceFolder}/tools/tile-server",
+          "remoteRoot": "/tools/tile-server"
+        }
+      ],
+      "connect": {
+        "host": "localhost",
+        "port": 5678
+      }
+    }
+  ]
+}

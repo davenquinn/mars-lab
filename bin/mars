@@ -7,6 +7,13 @@ if [ -z $MARS_LAB ]; then
   set +o allexport
 fi
 
+default_compose=$MARS_LAB/system/docker-compose.yaml
+export COMPOSE_FILE="${COMPOSE_FILE:-$default_compose}"
+
+if [ ! -z "$MARS_COMPOSE_OVERRIDES" ]; then
+  export COMPOSE_FILE="$COMPOSE_FILE:$MARS_COMPOSE_OVERRIDES"
+fi
+
 bin="$MARS_LAB/bin"
 
 if [ -z $1 ] || [ $1 = '--help' ]; then

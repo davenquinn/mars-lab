@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+cd $MARS_LAB/tools/Orienteer/core
+export PYTHONDONTWRITEBYTECODE=1
+export ORIENTEER_DATABASE=${ORIENTEER_DATABASE/"database:5432"/"localhost:54321"}
+
+poetry run orienteer $@

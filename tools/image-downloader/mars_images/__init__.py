@@ -1,8 +1,8 @@
 import click
 from pathlib import Path
-from os import environ
 from rich.console import Console
 from rio_cogeo import cog_translate, cog_profiles, cog_validate
+from rio_cogeo.cogeo import cog_info
 from .config import Config
 
 from .download_hirise import download_hirise
@@ -39,6 +39,7 @@ def _translate(file_path: Path, profile="lzw", profile_options={}, **options):
         config=config,
         in_memory=False,
         quiet=False,
+        overview_resampling="bilinear",
         **options,
     )
 
@@ -68,13 +69,13 @@ def print_path(pth: Path):
     console.print(pth.name, style="bold cyan")
 
 
-def create_cog(fn):
+def create_cog(fn, recalculate=False):
     cfg = Config()
     file = Path(fn)
     pth = file.relative_to(cfg.data_dir)
 
     print_path(pth)
-    if pth.suffix == ".tif":
+    if pth.suffix == ".tif" and not recalculate:
         res = cog_validate(file, strict=True)[0]
         if res:
             console.print("File is a COG already.", style="green")
@@ -87,11 +88,29 @@ def create_cog(fn):
 
 
 @cli.command(name="process-to-cog")
+@click.option("--recalculate", is_flag=True, default=False)
 @click.argument("files", type=click.Path(dir_okay=False, exists=True), nargs=-1)
-def create_cogs(files):
+def create_cogs(files, recalculate=False):
     console.print("Processing files to COG", style="bold green")
     for file in files:
-        create_cog(file)
+        create_cog(file, recalculate=recalculate)
+
+
+@cli.command(name="cog-info")
+@click.argument("files", type=click.Path(dir_okay=False, exists=True), nargs=-1)
+@click.option("--overviews", is_flag=True, default=False)
+def _cog_info(files, overviews=False):
+    for file in files:
+        console.print(file)
+        try:
+            info = cog_info(file)
+            if overviews:
+                console.print(f"Overviews: {len(info.IFD)}")
+            else:
+                console.print(info)
+            console.print()
+        except Exception as err:
+            console.print(err)
 
 
 @cli.command(name="write-paths")
