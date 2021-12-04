@@ -2,6 +2,4 @@
 
 base_dir=/projects/mars-lab
 
-docker-compose --project-dir $base_dir \
-  --env-file $base_dir/.env \
-  $@
+docker-compose --project-dir $base_dir $@

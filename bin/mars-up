@@ -6,6 +6,8 @@ if [ ${1:-""} = "--debug" ]; then
   shift
 fi
 
+echo $COMPOSE_FILE
+
 mars lab up --remove-orphans --build -d $@
 
 mars lab exec gateway nginx -s reload
