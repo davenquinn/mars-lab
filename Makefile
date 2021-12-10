@@ -32,11 +32,5 @@ mosaic: tools/tile-server
 		--volume /mars-data:/mars-data \
 		$^ tile-server /mars-data/hirise-images/*_RED.tif /mars-data/hirise-images/hirise-red.mosaic.json
 
-server: tools/tile-server
-	DOCKER_BUILDKIT=1 docker build -t $^ $^
-	docker run -it \
-		--volume /mars-data:/mars-data \
-		$^ uvicorn mars_tile_server:app
-
 sync:
 	git push --recurse-submodules=on-demand

@@ -12,12 +12,12 @@ services:
       - ./system/webroot:/webroot:ro
       - ./system/nginx-config:/etc/nginx/user_conf.d:ro
   server:
-    image: mars_tile_server
+    image: mars_tiler
     build:
       context: .
       dockerfile: tools/tile-server/Dockerfile
     command: >
-      gunicorn mars_tile_server:app
+      gunicorn mars_tiler:app
         --bind 0.0.0.0:8000
         --workers 8
         --worker-class uvicorn.workers.UvicornWorker
