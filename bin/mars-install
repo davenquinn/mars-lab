@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "Installing tile server"
+cd $MARS_LAB/tools/tile-server
+poetry install

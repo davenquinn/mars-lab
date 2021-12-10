@@ -1,3 +1,4 @@
 .env
 misc
 __pycache__
+.cache

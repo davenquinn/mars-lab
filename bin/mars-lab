@@ -1,5 +1,3 @@
 #!/bin/bash
 
-base_dir=/projects/mars-lab
-
-docker-compose --project-dir $base_dir $@
+docker-compose --project-dir $MARS_LAB $@
