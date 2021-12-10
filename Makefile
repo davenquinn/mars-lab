@@ -37,3 +37,6 @@ server: tools/tile-server
 	docker run -it \
 		--volume /mars-data:/mars-data \
 		$^ uvicorn mars_tile_server:app
+
+sync:
+	git push --recurse-submodules=on-demand
