@@ -2,6 +2,6 @@
 
 cd $MARS_LAB/tools/tile-server
 export PYTHONDONTWRITEBYTECODE=1
-export FOOTPRINTS_DATABASE=${FOOTPRINTS_DATABASE/"database:5432"/"localhost:54321"}
 
+export FOOTPRINTS_DATABASE=${FOOTPRINTS_DATABASE/"database:5432"/"localhost:54321"}
 poetry run tile-server $@

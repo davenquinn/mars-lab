@@ -48,6 +48,8 @@ services:
       - ORIENTEER_GEOGRAPHIC_SRID
       - ORIENTEER_HOST=0.0.0.0
     expose: [5000]
+    volumes:
+      - $MARS_DATA_DIR:$MARS_DATA_DIR:ro
   orienteer_api:
     image: postgrest/postgrest
     expose: [3000]

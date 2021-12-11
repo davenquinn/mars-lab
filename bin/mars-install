@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Poetry is needed for the local versions of some commands
+if ! command -v poetry &> /dev/null ; then
+  echo "Installing poetry"
+  curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+fi
+
 echo "Installing tile server"
 cd $MARS_LAB/tools/tile-server
+make install
+
+echo "Installing Orienteer"
+cd $MARS_LAB/tools/Orienteer/core
 poetry install
