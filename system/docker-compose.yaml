@@ -11,7 +11,7 @@ services:
       - $MARS_DATA_DIR:/usr/share/nginx/html:ro
       - ./system/webroot:/webroot:ro
       - ./system/nginx-config:/etc/nginx/user_conf.d:ro
-  server:
+  tile_server:
     image: mars_tiler
     build:
       context: .
@@ -28,6 +28,14 @@ services:
       - 8000
     volumes:
       - $MARS_DATA_DIR:/mars-data
+  tile_cache:
+    build: tools/tile-server/cache
+    environment:
+      - VARNISH_SIZE=2G
+    expose:
+      - 80    
+    volumes:
+      - cache_dir:/var/lib/varnish
   database:
     image: postgis/postgis:13-3.1
     ports:
@@ -86,3 +94,4 @@ services:
       - S3_BACKUP_BUCKET=macrostrat-db-backups
 volumes:
   db_cluster: null
+  cache_dir: null
