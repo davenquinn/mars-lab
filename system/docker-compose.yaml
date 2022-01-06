@@ -31,7 +31,7 @@ services:
   tile_cache:
     build: tools/tile-server/cache
     environment:
-      - VARNISH_SIZE=2G
+      - VARNISH_SIZE=5G
     expose:
       - 80    
     volumes:
