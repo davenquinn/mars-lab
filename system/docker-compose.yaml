@@ -66,9 +66,12 @@ services:
       - PGRST_DB_SCHEMA=orienteer_api
       - PGRST_DB_ANON_ROLE=postgres
   orienteer_frontend:
+    #image: ghcr.io/davenquinn/orienteer/orienteer-frontend:next
     build:
-      context: tools/Orienteer
+      context: ./tools/Orienteer
       dockerfile: Dockerfile.frontend
+    environment:
+      - ORIENTEER_API_BASE=https://argyre.geoscience.wisc.edu/orienteer/api
   frontend:
     image: ghcr.io/davenquinn/mars-lab-frontend:main
   mapboard:

@@ -1,13 +1,10 @@
 {
-  "folders": [
-	{
-		"name": "mars-lab",
-		"path": "."
-	},
-	{
-		"name": "mars-data",
-		"path": "../../mars-data"
-	}
-],
-  "settings": {}
+	"folders": [
+		{
+			"path": ".",
+			"name": "Main lab codebase"
+		},
+		{ "path": "/mars-data", "name": "Imagery data"}
+	],
+	"settiings": {}
 }
