@@ -9,7 +9,8 @@ fi
 echo $COMPOSE_FILE
 
 # Pull down images that are likely to be recreated outside...
-mars lab pull frontend
+mars lab pull frontend orienteer_frontend
+#mars lab pull orienteer_frontend
 
 mars lab up --remove-orphans --build -d $@
 
