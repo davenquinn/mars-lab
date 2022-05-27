@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-cd $MARS_LAB/tools/tile-server
-export PYTHONDONTWRITEBYTECODE=1
-# For right now we run the tile server locally (using Poetry)
-export FOOTPRINTS_DATABASE=${FOOTPRINTS_DATABASE/"database:5432"/"localhost:54321"}
-poetry run tile-server $@
+# cd $MARS_LAB/tools/tile-server
+# export PYTHONDONTWRITEBYTECODE=1
+# # For right now we run the tile server locally (using Poetry)
+# export FOOTPRINTS_DATABASE=${FOOTPRINTS_DATABASE/"database:5432"/"localhost:54321"}
+# poetry run tile-server $@
+
+mars lab exec tile_server /code/.venv/bin/tile-server $@

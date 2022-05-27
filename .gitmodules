@@ -7,3 +7,6 @@
 [submodule "tools/tile-server"]
 	path = tools/tile-server
 	url = git://github.com/davenquinn/mars-tiler.git
+[submodule "tools/Mars-Science-Index"]
+	path = tools/mars-science-index
+	url = https://github.com/davenquinn/Mars-Science-Index.git

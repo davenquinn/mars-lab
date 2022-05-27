@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+mars lab exec tile_cache varnishlog

@@ -13,14 +13,7 @@ services:
       - ./system/nginx-config:/etc/nginx/user_conf.d:ro
   tile_server:
     image: mars_tiler
-    build:
-      context: .
-      dockerfile: tools/tile-server/Dockerfile
-    command: >
-      gunicorn mars_tiler:app
-        --bind 0.0.0.0:8000
-        --workers 8
-        --worker-class uvicorn.workers.UvicornWorker
+    build: tools/tile-server
     environment:
       - FOOTPRINTS_DATABASE
       - MOSAIC_CONCURRENCY
@@ -65,8 +58,15 @@ services:
       - PGRST_DB_URI=${ORIENTEER_DATABASE}
       - PGRST_DB_SCHEMA=orienteer_api
       - PGRST_DB_ANON_ROLE=postgres
+  orienteer_frontend:
+    image: ghcr.io/davenquinn/orienteer/orienteer-frontend:next
+    # build:
+    #   context: ./tools/Orienteer
+    #   dockerfile: Dockerfile.frontend
+    environment:
+      - ORIENTEER_API_BASE=https://argyre.geoscience.wisc.edu/orienteer/api
   frontend:
-    image: ghcr.io/davenquinn/mars-lab-frontend:main
+    image: ghcr.io/davenquinn/mars-lab-frontend:1.0.0
   mapboard:
     image: ghcr.io/davenquinn/geologic-map:strabospot-integration
     entrypoint: /usr/bin/env
@@ -79,6 +79,10 @@ services:
     command: /app/docker-assets/run-server
     expose:
       - 3006
+  mars_science_index:
+    build: tools/mars-science-index
+    environment:
+      - DATABASE=${MARS_INDEX_DATABASE}
   db_backup:
     image: ghcr.io/uw-macrostrat/pg-backup-service:latest
     environment:

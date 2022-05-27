@@ -7,6 +7,8 @@ if [ -z $MARS_LAB ]; then
   set +o allexport
 fi
 
+export COMPOSE_PROJECT_NAME="mars_lab"
+
 default_compose=$MARS_LAB/system/docker-compose.yaml
 export COMPOSE_FILE="${COMPOSE_FILE:-$default_compose}"
 

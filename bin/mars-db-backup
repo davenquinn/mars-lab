@@ -1,0 +1,2 @@
+#!/bin/bash
+mars lab run db_backup backup-db
