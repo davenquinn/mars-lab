@@ -66,7 +66,7 @@ services:
     environment:
       - ORIENTEER_API_BASE=https://argyre.geoscience.wisc.edu/orienteer/api
   frontend:
-    image: ghcr.io/davenquinn/mars-lab-frontend:main
+    image: ghcr.io/davenquinn/mars-lab-frontend:1.0.0
   mapboard:
     image: ghcr.io/davenquinn/geologic-map:strabospot-integration
     entrypoint: /usr/bin/env
@@ -79,6 +79,10 @@ services:
     command: /app/docker-assets/run-server
     expose:
       - 3006
+  mars_science_index:
+    build: tools/mars-science-index
+    environment:
+      - DATABASE=${MARS_INDEX_DATABASE}
   db_backup:
     image: ghcr.io/uw-macrostrat/pg-backup-service:latest
     environment:
